@@ -25,8 +25,8 @@ function MovieCard({ movie, setSelected }) {
         )}
       </div>
       <h2 className="card-title">{movie.title}</h2>
-      <div className="card-desc">
-        <p>{movie.overview}</p>
+      <div className="card-desc w-full">
+        {movie.overview ? <p>{movie.overview}</p> : <p>No description...</p>}
       </div>
     </div>
   );
