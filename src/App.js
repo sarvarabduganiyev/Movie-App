@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MovieCard from "./components/MovieCard";
 import Pagination from "./components/Pagination";
 import SearchFilter from "./components/SearchFilter";
+import ReactLoading from "react-loading";
 
 function App() {
   const API_URL = "https://api.themoviedb.org/3";
@@ -41,27 +42,39 @@ function App() {
   };
   return (
     <div className="bg-black">
-      <div style={backgroundStyle} className=" h-[450px] banner__bg">
-        <div className="container__size">
-          <SearchFilter
-            searchKey={searchKey}
-            setSearchKey={setSearchKey}
-            fetchMovie={fetchMovie}
-          />
-          <h3 className="text-white banner__title  text-[40px]">
-            {selected.title}
-          </h3>
-          <p className="text-white banner__description lineEight">
-            {selected.overview}
-          </p>
+      {movies.length > 0 ? (
+        <div>
+          <div style={backgroundStyle} className=" h-[450px] banner__bg">
+            <div className="container__size">
+              <SearchFilter
+                searchKey={searchKey}
+                setSearchKey={setSearchKey}
+                fetchMovie={fetchMovie}
+              />
+              <h3 className="text-white banner__title  text-[40px]">
+                {selected.title}
+              </h3>
+              <p className="text-white banner__description lineEight">
+                {selected.overview}
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 container__size grid_cards gap-[30px]">
+            {movies.map((movie) => (
+              <MovieCard
+                movie={movie}
+                key={movie.id}
+                setSelected={setSelected}
+              />
+            ))}
+          </div>
+          <Pagination totalPages={totalPages} setPage={setPage} />
         </div>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 container__size grid_cards gap-[30px]">
-        {movies.map((movie) => (
-          <MovieCard movie={movie} key={movie.id} setSelected={setSelected} />
-        ))}
-      </div>
-      <Pagination totalPages={totalPages} setPage={setPage} />
+      ) : (
+        <div className="h-screen w-full  bg-white flex flex-col items-center jutify-center">
+          <ReactLoading color="#000" className="my-auto" type="bars" />
+        </div>
+      )}
     </div>
   );
 }
