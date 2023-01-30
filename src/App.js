@@ -4,11 +4,9 @@ import MovieCard from "./components/MovieCard";
 import Pagination from "./components/Pagination";
 import SearchFilter from "./components/SearchFilter";
 import ReactLoading from "react-loading";
+import { API_KEY, API_URL, IMG_PATH } from "./constants";
 
 function App() {
-  const API_URL = "https://api.themoviedb.org/3";
-  const API_KEY = "8e89caf37b0d2b499306227e8c46cc87";
-  const IMG_PATH = "https://image.tmdb.org/t/p/original/";
   const [movies, setMovies] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const [selected, setSelected] = useState("");
@@ -17,7 +15,6 @@ function App() {
   // /?&page=5
   const fetchMovie = async (searchKey) => {
     const type = searchKey ? "search" : "discover";
-
     const { data } = await axios.get(
       `${API_URL}/${type}/movie/?&page=${page}`,
       {
